@@ -4,6 +4,9 @@ import urllib.request
 import os
 import argparse
 
+import ssl
+context = ssl._create_unverified_context()
+
 headers= {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36', 
         'Accept-Language': 'en-US,en;q=0.8'
@@ -46,7 +49,7 @@ def main(args):
 
     for i, url in enumerate(tqdm(image_urls)):
         request_= urllib.request.Request(url,None,headers) 
-        response = urllib.request.urlopen(request_)
+        response = urllib.request.urlopen(request_,context=context)
         image = response.read()
         with open(f"{output_dir}/{i:04d}.png", "wb") as file:
                 file.write(image)
